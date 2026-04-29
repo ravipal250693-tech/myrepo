@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= profileUser.username %> | Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">Social Connect</a>
+      <div class="nav-links">
+        <a href="/feed">Feed</a>
+        <a href="/users" class="active">Friends</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="profile-container">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-cover"></div>
+        <div class="profile-info">
+          <img src="https://ui-avatars.com/api/?name=<%= profileUser.fullname || profileUser.username %>&background=00d4aa&color=fff&size=150" alt="<%= profileUser.username %>" class="profile-avatar">
+          <div class="profile-details">
+            <h1><%= profileUser.fullname || profileUser.username %></h1>
+            <p class="username">@<%= profileUser.username %></p>
+            <% if (profile.bio) { %>
+              <p class="bio"><%= profile.bio %></p>
+            <% } %>
+            
+            <div class="profile-meta">
+              <% if (profile.location) { %>
+                <span class="meta-item">📍 <%= profile.location %></span>
+              <% } %>
+              <% if (profile.workplace) { %>
+                <span class="meta-item">💼 <%= profile.workplace %></span>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Posts -->
+      <div class="profile-content">
+        <div class="profile-main" style="max-width: 100%;">
+          <h2>Posts</h2>
+          <div class="posts">
+            <% if (posts.length === 0) { %>
+              <div class="no-posts">No posts yet.</div>
+            <% } else { %>
+              <% posts.forEach(post => { %>
+                <div class="post">
+                  <div class="post-header">
+                    <img src="https://ui-avatars.com/api/?name=<%= post.authorName %>&background=00d4aa&color=fff" class="post-avatar">
+                    <div class="post-info">
+                      <span class="post-author"><%= post.authorName %></span>
+                      <span class="post-time"><%= new Date(post.createdAt).toLocaleString() %></span>
+                    </div>
+                  </div>
+                  <div class="post-content">
+                    <%= post.content %>
+                  </div>
+                  <div class="post-actions">
+                    <form action="/post/<%= post.id %>/like" method="POST" class="like-form">
+                      <button type="submit" class="action-btn <%= post.likes && post.likes.includes(viewer.id) ? 'liked' : '' %>">
+                        <span>❤️</span> <%= post.likes ? post.likes.length : 0 %>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              <% }); %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

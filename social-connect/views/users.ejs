@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friends | Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">Social Connect</a>
+      <div class="nav-links">
+        <a href="/feed">Feed</a>
+        <a href="/users" class="active">Friends</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="friends-container">
+      <h1>Friends</h1>
+      <p class="subtitle">Connect with people</p>
+      
+      <div class="users-grid">
+        <% if (users.length === 0) { %>
+          <div class="no-users">No users found. Be the first to join!</div>
+        <% } else { %>
+          <% users.forEach(u => { %>
+            <div class="user-card">
+              <img src="https://ui-avatars.com/api/?name=<%= u.fullname || u.username %>&background=00d4aa&color=fff&size=100" alt="<%= u.username %>" class="user-avatar">
+              <div class="user-info">
+                <h3><%= u.fullname || u.username %></h3>
+                <p class="user-username">@<%= u.username %></p>
+                <% if (u.profile && u.profile.bio) { %>
+                  <p class="user-bio"><%= u.profile.bio.substring(0, 80) %><%= u.profile.bio.length > 80 ? '...' : '' %></p>
+                <% } %>
+                <% if (u.profile && u.profile.location) { %>
+                  <p class="user-location">📍 <%= u.profile.location %></p>
+                <% } %>
+              </div>
+              <a href="/profile/<%= u.id %>" class="btn btn-primary">View Profile</a>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

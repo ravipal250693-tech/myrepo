@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed | Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">Social Connect</a>
+      <div class="nav-links">
+        <a href="/feed" class="active">Feed</a>
+        <a href="/users">Friends</a>
+        <a href="/profile">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="feed-container">
+      <!-- Create Post -->
+      <div class="create-post-card">
+        <img src="https://ui-avatars.com/api/?name=<%= user.fullname || user.username %>&background=00d4aa&color=fff" alt="<%= user.username %>" class="post-avatar">
+        <form action="/post" method="POST" class="post-form">
+          <textarea name="content" placeholder="What's on your mind, <%= user.username %>?" required></textarea>
+          <div class="post-options">
+            <label class="private-toggle">
+              <input type="checkbox" name="isPrivate">
+              <span>Private Post</span>
+            </label>
+            <button type="submit" class="btn btn-primary">Post</button>
+          </div>
+        </form>
+      </div>
+      
+      <!-- Posts -->
+      <div class="posts-feed">
+        <% if (posts.length === 0) { %>
+          <div class="no-posts">No posts yet. Be the first to share something!</div>
+        <% } else { %>
+          <% posts.forEach(post => { %>
+            <div class="post-card">
+              <div class="post-header">
+                <a href="/profile/<%= post.authorId %>">
+                  <img src="https://ui-avatars.com/api/?name=<%= post.authorName %>&background=00d4aa&color=fff" alt="<%= post.authorName %>" class="post-avatar">
+                </a>
+                <div class="post-info">
+                  <a href="/profile/<%= post.authorId %>" class="post-author"><%= post.authorName %></a>
+                  <span class="post-time"><%= new Date(post.createdAt).toLocaleString() %></span>
+                </div>
+                <% if (post.isPrivate) { %>
+                  <span class="private-badge">Private</span>
+                <% } %>
+              </div>
+              <div class="post-content">
+                <%= post.content %>
+              </div>
+              <div class="post-actions">
+                <form action="/post/<%= post.id %>/like" method="POST" class="action-form">
+                  <button type="submit" class="action-btn <%= post.likes && post.likes.includes(user.id) ? 'liked' : '' %>">
+                    <span>❤️</span> <%= post.likes ? post.likes.length : 0 %>
+                  </button>
+                </form>
+                <button class="action-btn" onclick="toggleComments('<%= post.id %>')">💬 Comment</button>
+              </div>
+              <% if (post.comments && post.comments.length > 0) { %>
+                <div class="comments-section" id="comments-<%= post.id %>">
+                  <% post.comments.forEach(comment => { %>
+                    <div class="comment">
+                      <strong><%= comment.authorName %>:</strong> <%= comment.content %>
+                    </div>
+                  <% }); %>
+                </div>
+              <% } %>
+              <form action="/post/<%= post.id %>/comment" method="POST" class="comment-form" id="comment-form-<%= post.id %>">
+                <input type="text" name="comment" placeholder="Write a comment..." required>
+                <button type="submit">Post</button>
+              </form>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function toggleComments(postId) {
+      var form = document.getElementById('comment-form-' + postId);
+      form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+    }
+  </script>
+</body>
+</html>

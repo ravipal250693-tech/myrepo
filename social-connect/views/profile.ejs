@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">Social Connect</a>
+      <div class="nav-links">
+        <a href="/feed">Feed</a>
+        <a href="/users">Friends</a>
+        <a href="/profile" class="active">Profile</a>
+        <a href="/logout">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="profile-container">
+      <!-- Profile Header -->
+      <div class="profile-header">
+        <div class="profile-cover"></div>
+        <div class="profile-info">
+          <img src="https://ui-avatars.com/api/?name=<%= user.fullname || user.username %>&background=00d4aa&color=fff&size=150" alt="<%= user.username %>" class="profile-avatar">
+          <div class="profile-details">
+            <h1><%= user.fullname || user.username %></h1>
+            <p class="username">@<%= user.username %></p>
+            <% if (profile.bio) { %>
+              <p class="bio"><%= profile.bio %></p>
+            <% } %>
+            
+            <div class="profile-meta">
+              <% if (profile.location) { %>
+                <span class="meta-item">&#128205; <%= profile.location %></span>
+              <% } %>
+              <% if (profile.workplace) { %>
+                <span class="meta-item">&#128188; <%= profile.workplace %></span>
+              <% } %>
+              <% if (profile.school) { %>
+                <span class="meta-item">&#127891; <%= profile.school %></span>
+              <% } %>
+            </div>
+          </div>
+          <button class="btn btn-secondary" onclick="document.getElementById('editModal').style.display='flex'">Edit Profile</button>
+        </div>
+      </div>
+      
+      <!-- Profile Content -->
+      <div class="profile-content">
+        <div class="profile-sidebar">
+          <div class="info-card">
+            <h3>About</h3>
+            <% if (profile.birthday) { %>
+              <p>🎂 Birthday: <%= profile.birthday %></p>
+            <% } %>
+            <% if (profile.location) { %>
+              <p>📍 Lives in <%= profile.location %></p>
+            <% } %>
+            <% if (profile.website) { %>
+              <p>🌐 <a href="<%= profile.website %>" target="_blank"><%= profile.website %></a></p>
+            <% } %>
+            <p>Joined: <%= new Date(user.createdAt).toLocaleDateString() %></p>
+          </div>
+        </div>
+        
+        <div class="profile-main">
+          <!-- Create Post -->
+          <div class="create-post">
+            <img src="https://ui-avatars.com/api/?name=<%= user.fullname || user.username %>&background=00d4aa&color=fff" alt="<%= user.username %>" class="post-avatar">
+            <form action="/post" method="POST" class="post-form">
+              <textarea name="content" placeholder="What's on your mind, <%= user.username %>?" required></textarea>
+              <div class="post-options">
+                <label class="private-toggle">
+                  <input type="checkbox" name="isPrivate">
+                  <span>Private Post</span>
+                </label>
+                <button type="submit" class="btn btn-primary">Post</button>
+              </div>
+            </form>
+          </div>
+          
+          <!-- Posts -->
+          <div class="posts">
+            <% if (posts.length === 0) { %>
+              <div class="no-posts">No posts yet. Start sharing!</div>
+            <% } else { %>
+              <% posts.forEach(post => { %>
+                <div class="post">
+                  <div class="post-header">
+                    <img src="https://ui-avatars.com/api/?name=<%= post.authorName %>&background=00d4aa&color=fff" alt="<%= post.authorName %>" class="post-avatar">
+                    <div class="post-info">
+                      <a href="/profile/<%= user.id %>" class="post-author"><%= post.authorName %></a>
+                      <span class="post-time"><%= new Date(post.createdAt).toLocaleString() %></span>
+                    </div>
+                    <% if (post.isPrivate) { %>
+                      <span class="private-badge">Private</span>
+                    <% } %>
+                  </div>
+                  <div class="post-content">
+                    <%= post.content %>
+                  </div>
+                  <div class="post-actions">
+                    <form action="/post/<%= post.id %>/like" method="POST" class="like-form">
+                      <button type="submit" class="action-btn <%= post.likes && post.likes.includes(user.id) ? 'liked' : '' %>">
+                        <span>❤️</span> <%= post.likes ? post.likes.length : 0 %>
+                      </button>
+                    </form>
+                    <button class="action-btn" onclick="toggleComments('<%= post.id %>')">💬 Comment</button>
+                    <% if (post.authorId === user.id) { %>
+                      <form action="/post/<%= post.id %>/delete" method="POST" class="delete-form">
+                        <button type="submit" class="action-btn delete-btn">🗑️</button>
+                      </form>
+                    <% } %>
+                  </div>
+                  <% if (post.comments && post.comments.length > 0) { %>
+                    <div class="comments-section" id="comments-<%= post.id %>">
+                      <% post.comments.forEach(comment => { %>
+                        <div class="comment">
+                          <strong><%= comment.authorName %>:</strong> <%= comment.content %>
+                        </div>
+                      <% }); %>
+                    </div>
+                  <% } %>
+                  <form action="/post/<%= post.id %>/comment" method="POST" class="comment-form" id="comment-form-<%= post.id %>">
+                    <input type="text" name="comment" placeholder="Write a comment..." required>
+                    <button type="submit">Post</button>
+                  </form>
+                </div>
+              <% }); %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Edit Profile Modal -->
+  <div id="editModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+      <h2>Edit Profile</h2>
+      <form action="/profile/update" method="POST" class="edit-form">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" name="fullname" value="<%= user.fullname || '' %>">
+        </div>
+        <div class="form-group">
+          <label>Bio</label>
+          <textarea name="bio" placeholder="Tell us about yourself"><%= profile.bio || '' %></textarea>
+        </div>
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" name="location" value="<%= profile.location || '' %>">
+        </div>
+        <div class="form-group">
+          <label>Birthday</label>
+          <input type="date" name="birthday" value="<%= profile.birthday || '' %>">
+        </div>
+        <div class="form-group">
+          <label>School</label>
+          <input type="text" name="school" value="<%= profile.school || '' %>">
+        </div>
+        <div class="form-group">
+          <label>Workplace</label>
+          <input type="text" name="workplace" value="<%= profile.workplace || '' %>">
+        </div>
+        <div class="form-group">
+          <label>Website</label>
+          <input type="url" name="website" value="<%= profile.website || '' %>">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

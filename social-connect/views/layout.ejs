@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof title !== 'undefined' ? title + ' | ' : '' %>Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="/feed" class="logo">Social Connect</a>
+      
+      <div class="nav-search">
+        <input type="text" placeholder="Search">
+      </div>
+      
+      <div class="nav-links">
+        <a href="/feed" class="nav-link">Feed</a>
+        <a href="/users" class="nav-link">Friends</a>
+        <a href="/profile" class="nav-link profile-link">
+          <img src="https://ui-avatars.com/api/?name=<%= user.fullname || user.username %>&background=00d4aa&color=fff" alt="Profile" class="nav-avatar">
+          Profile
+        </a>
+        <a href="/logout" class="nav-link">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <%- body %>
+  </main>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register | Social Connect</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-box">
+      <h1>Social Connect</h1>
+      <p class="tagline">Connect with friends and the world</p>
+      
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><%= error %></div>
+      <% } %>
+      
+      <form action="/register" method="POST" class="auth-form">
+        <div class="form-group">
+          <input type="text" name="fullname" placeholder="Full Name" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="username" placeholder="Username" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="email" name="email" placeholder="Email" required>
+        </div>
+        
+        <div class="form-group">
+          <input type="password" name="password" placeholder="Password" required>
+        </div>
+        
+        <h3>Profile Details (Optional)</h3>
+        
+        <div class="form-group">
+          <textarea name="bio" placeholder="Bio - Tell us about yourself"></textarea>
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="location" placeholder="Location (City, Country)">
+        </div>
+        
+        <div class="form-group">
+          <label>Birthday</label>
+          <input type="date" name="birthday">
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="school" placeholder="School/College">
+        </div>
+        
+        <div class="form-group">
+          <input type="text" name="workplace" placeholder="Workplace">
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+      </form>
+      
+      <p class="auth-link">Already have an account? <a href="/login">Login</a></p>
+    </div>
+  </div>
+</body>
+</html>
