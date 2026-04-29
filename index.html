@@ -3,9 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>StyleHub - Premium Clothing & Shoes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    My name is ravi
+    <header>
+        <div class="top-bar">
+            <div class="container">
+                <span><i class="fas fa-phone"></i> +1 234 567 8900</span>
+                <span><i class="fas fa-envelope"></i> info@stylehub.com</span>
+            </div>
+        </div>
+        <nav class="navbar">
+            <div class="container">
+                <a href="#" class="logo">Style<span>Hub</span></a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#clothing">Clothing</a></li>
+                    <li><a href="#shoes">Shoes</a></li>
+                    <li><a href="#brands">Brands</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                    <button class="cart-btn" onclick="toggleCart()">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count">0</span>
+                    </button>
+                </div>
+                <button class="menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Style</h1>
+            <p>Premium clothing and shoes from top brands worldwide</p>
+            <a href="#clothing" class="btn">Shop Now</a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="container">
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=400" alt="Clothing">
+                <div class="category-info">
+                    <h3>Clothing</h3>
+                    <p>Explore trendy outfits</p>
+                </div>
+            </div>
+            <div class="category-card">
+                <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" alt="Shoes">
+                <div class="category-info">
+                    <h3>Shoes</h3>
+                    <p>Step in style</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="clothing" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Clothing Collection</h2>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="tshirt">T-Shirts</button>
+                <button class="filter-btn" data-filter="jeans">Jeans</button>
+                <button class="filter-btn" data-filter="jackets">Jackets</button>
+                <button class="filter-btn" data-filter="shirts">Shirts</button>
+                <button class="filter-btn" data-filter="dresses">Dresses</button>
+            </div>
+            <div class="product-grid" id="clothing-products">
+            </div>
+        </div>
+    </section>
+
+    <section id="shoes" class="products-section">
+        <div class="container">
+            <h2 class="section-title">Shoes Collection</h2>
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="sneakers">Sneakers</button>
+                <button class="filter-btn" data-filter="formal">Formal</button>
+                <button class="filter-btn" data-filter="boots">Boots</button>
+                <button class="filter-btn" data-filter="sports">Sports</button>
+            </div>
+            <div class="product-grid" id="shoes-products">
+            </div>
+        </div>
+    </section>
+
+    <section id="brands" class="brands-section">
+        <div class="container">
+            <h2 class="section-title">Top Brands</h2>
+            <div class="brands-grid">
+                <div class="brand-logo">Nike</div>
+                <div class="brand-logo">Adidas</div>
+                <div class="brand-logo">Puma</div>
+                <div class="brand-logo">Levi's</div>
+                <div class="brand-logo">Zara</div>
+                <div class="brand-logo">H&M</div>
+                <div class="brand-logo">Gucci</div>
+                <div class="brand-logo">Ralph Lauren</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <div class="feature">
+                <i class="fas fa-shipping-fast"></i>
+                <h3>Free Shipping</h3>
+                <p>On orders over $100</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-undo"></i>
+                <h3>Easy Returns</h3>
+                <p>30-day return policy</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Secure Payment</h3>
+                <p>100% secure checkout</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-headset"></i>
+                <h3>24/7 Support</h3>
+                <p>Dedicated support team</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>StyleHub</h3>
+                    <p>Your destination for premium clothing and shoes from top brands worldwide.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#clothing">Clothing</a></li>
+                        <li><a href="#shoes">Shoes</a></li>
+                        <li><a href="#brands">Brands</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Customer Service</h3>
+                    <ul>
+                        <li><a href="#">Shipping Info</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Fashion Street, NY</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 8900</p>
+                    <p><i class="fas fa-envelope"></i> info@stylehub.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 StyleHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="cart-sidebar" id="cart">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button class="close-cart" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <p class="empty-cart">Your cart is empty</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+    <script src="script.js"></script>
 </body>
 </html>

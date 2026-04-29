@@ -110,7 +110,13 @@ app.post('/login', async (req, res) => {
   const data = loadData();
   
   const user = data.users.find(u => u.email === email);
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!user) {
+    return res.render('login', { user: null, error: 'Invalid email or password' });
+  }
+  
+  // Simple password check (also check plain password for backward compat)
+  const passwordValid = (user.password === password || await bcrypt.compare(password, user.password).catch(() => false));
+  if (!passwordValid) {
     return res.render('login', { user: null, error: 'Invalid email or password' });
   }
   
